@@ -8,7 +8,9 @@ public class QueryEvaluation {
 		QueryEvaluationEngine queryEvaluationEngine = new QueryEvaluationEngine();
 		String query;
 		Scanner sc = new Scanner(System.in);
+		System.out.println("query");
 		query = sc.nextLine();
+		
 		queryEvaluationEngine.executeQuery(query);
 	}
 
