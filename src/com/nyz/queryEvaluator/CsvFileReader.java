@@ -12,9 +12,9 @@ public class CsvFileReader {
 	String line = "";
 	private String[] headerColumn;
 
-	public String[] fetchHeader(String tableName) {
+	public String[] fetchHeader(String csvName) {
 		try {
-			bufferedReader = new BufferedReader(new FileReader("D:\\"+tableName+".csv"));
+			bufferedReader = new BufferedReader(new FileReader("D:\\"+csvName+".csv"));
 			line = bufferedReader.readLine();
 			headerColumn = line.split(",");
 		} catch (IOException e) {
