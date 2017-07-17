@@ -13,12 +13,13 @@ public class QueryEvaluationParameter {
 	private String[] columnNames = null;
 	private String csvName = null;
 	private ArrayList<Criteria> whereClause = null;
+	String[] splitAtWhere = null;
 	private ArrayList<String> whereCondition = null;
 	private String sumFunction = null;
 	private String countFunction = null;
 	private String orderByColumn = null;
 	private String groupByColumn = null;
-
+	String[] splitAtGroupBy = null;
 	public QueryEvaluationParameter extractParam(String query) {
 		// TODO Auto-generated method stub
 		/*String[] FromSplit = query.split("from");
@@ -31,12 +32,11 @@ public class QueryEvaluationParameter {
 		} else {
 			System.out.println("MATCHED FAILED");
 		}*/
-		String[] splitAtGroupBy = null;
-		String[] splitAtWhere = null;
+		
+		
 
 		String[] SplitAtFrom = query.split("from");
-		// pattern = Pattern.compile("select (.*?) from\s+(\w+)?");
-		// pattern = Pattern.compile("select (.*?) from (\\w+)?");
+		
 		pattern = Pattern.compile("select (.*?) from (.*)+?");
 		matcher = pattern.matcher(query.trim());
 		if (matcher.find()) {
@@ -84,9 +84,9 @@ public class QueryEvaluationParameter {
 			whereCondition = new ArrayList<>();
 			
 			String whereString = splitAtWhere[1].trim();
-			String[] whereCond = whereString.split("\\s+");
+			String[] whereLogicalOperator = whereString.split("\\s+");
 			
-			for (String s : whereCond) {
+			for (String s : whereLogicalOperator) {
 				if (s.equals("and")) {
 					whereCondition.add("and");
 				} else if (s.equals("or")) {
