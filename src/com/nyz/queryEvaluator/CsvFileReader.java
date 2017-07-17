@@ -12,9 +12,21 @@ public class CsvFileReader {
 	String line = "";
 	private String[] headerColumn;
 
+	//for displaying output for the query
+	public void display(Map<Integer, ArrayList<String>> rowSet) {
+		for (Map.Entry<Integer, ArrayList<String>> m : rowSet.entrySet()) {
+			ArrayList<String> data = m.getValue();
+			for (String s : data) {
+				System.out.print(s + "\t\t");
+			}
+			System.out.println();
+
+		}
+	}
+
 	public String[] fetchHeader(String csvName) {
 		try {
-			bufferedReader = new BufferedReader(new FileReader("D:\\"+csvName+".csv"));
+			bufferedReader = new BufferedReader(new FileReader("D:\\" + csvName + ".csv"));
 			line = bufferedReader.readLine();
 			headerColumn = line.split(",");
 		} catch (IOException e) {
@@ -41,15 +53,33 @@ public class CsvFileReader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		for (Map.Entry<Integer, ArrayList<String>> m : rowSet.entrySet()) {
-			ArrayList<String> data = m.getValue();
-			for (String s : data) {
-				System.out.print(s + "\t\t");
+		display(rowSet);
+	}
+	
+	public Map<Integer, ArrayList<String>> fetchData(String selectedColumns[], String[] headers) {
+		Map<Integer, ArrayList<String>> rowSet = new LinkedHashMap<Integer, ArrayList<String>>();
+		int rowCount = 0;
+		try {
+			while ((line = bufferedReader.readLine()) != null) {
+				String[] lineData = line.split(",");
+				ArrayList<String> rowData = new ArrayList<>();
+				for (int i = 0; i < selectedColumns.length; i++) {
+					for (int j = 0; j < headers.length; j++) {
+						if (selectedColumns[i].trim().equals(headers[j].trim())) {
+							rowData.add(lineData[j]);
+						}
+					}
+				}
+				
+				rowSet.put(rowCount, rowData);
+				rowCount++;
 			}
-			System.out.println();
-
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
+		display(rowSet);
+		return null;
+		
 	}
 }
