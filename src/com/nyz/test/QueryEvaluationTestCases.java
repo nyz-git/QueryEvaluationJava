@@ -22,12 +22,12 @@ public class QueryEvaluationTestCases {
 		queryEvaluationEngine = new QueryEvaluationEngine();
 	}
 
-	@Test
+	/*@Test
 	public void headerfetcher() {
 		String header[] = csvFileReader.fetchHeader("emp");
 		//assertNotNull(csvFileReader);
 		assertEquals(5, header.length);
-	}
+	}*/
 	
 	@Test
 	public void fetchAllDataWithoutWhere() {
@@ -35,5 +35,11 @@ public class QueryEvaluationTestCases {
 		assertNotNull(queryEvaluationEngine);
 	}
 
-	
+	@Test
+	public void selectColumnsWithoutWhereTestCase(){
+		
+		queryEvaluationEngine.executeQuery("select city,dept,name from emp.csv");
+		assertNotNull(queryEvaluationEngine);
+		
+	}
 }
