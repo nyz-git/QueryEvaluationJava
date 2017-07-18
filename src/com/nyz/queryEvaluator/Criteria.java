@@ -4,6 +4,11 @@ public class Criteria {
 
 	String columnNameOfWhere;
 	String value;
+	@Override
+	public String toString() {
+		return "Criteria [columnNameOfWhere=" + columnNameOfWhere + ", value=" + value + ", operatorOfWhere="
+				+ operatorOfWhere + "]";
+	}
 	String operatorOfWhere;
 	public String getColumnNameOfWhere() {
 		return columnNameOfWhere;
