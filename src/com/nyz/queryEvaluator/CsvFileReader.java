@@ -12,7 +12,7 @@ public class CsvFileReader {
 	String line = "";
 	private String[] headerColumn;
 
-	//for displaying output for the query
+	//for displaying output for the query (all fetchdata() will call this method for printing )
 	public void display(Map<Integer, ArrayList<String>> rowSet) {
 		for (Map.Entry<Integer, ArrayList<String>> m : rowSet.entrySet()) {
 			ArrayList<String> data = m.getValue();
@@ -24,6 +24,7 @@ public class CsvFileReader {
 		}
 	}
 
+	//for fetching header of the csv file
 	public String[] fetchHeader(String csvName) {
 		try {
 			bufferedReader = new BufferedReader(new FileReader("D:\\" + csvName + ".csv"));
@@ -35,6 +36,7 @@ public class CsvFileReader {
 		return headerColumn;
 	}
 
+	//fetching data for select all columns with no where clause
 	public void fetchData(QueryEvaluationParameter queryEvaluationParameter) {
 		// TODO Auto-generated method stub
 		Map<Integer, ArrayList<String>> rowSet = new LinkedHashMap<Integer, ArrayList<String>>();
@@ -56,6 +58,7 @@ public class CsvFileReader {
 		display(rowSet);
 	}
 	
+	//fetching data for select multiple/selected columns with no where clause
 	public Map<Integer, ArrayList<String>> fetchData(String selectedColumns[], String[] headers) {
 		Map<Integer, ArrayList<String>> rowSet = new LinkedHashMap<Integer, ArrayList<String>>();
 		int rowCount = 0;
@@ -81,5 +84,16 @@ public class CsvFileReader {
 		display(rowSet);
 		return null;
 		
+	}
+
+	public void fetchData(String[] fetchHeader, String[] fetchHeader2, ArrayList<Criteria> whereClause) {
+		// TODO Auto-generated method stub
+		System.out.println("Where clause");
+	}
+
+	public void fetchData(String[] columnNames, String[] fetchHeader, ArrayList<Criteria> whereClause,
+			ArrayList<String> whereCondition) {
+		// TODO Auto-generated method stub
+		System.out.println("Where clause with condition");
 	}
 }
