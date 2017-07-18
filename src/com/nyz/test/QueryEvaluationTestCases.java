@@ -1,4 +1,4 @@
-/*package com.nyz.test;
+package com.nyz.test;
 
 import static org.junit.Assert.*;
 
@@ -10,10 +10,6 @@ import com.nyz.queryEvaluator.QueryEvaluationEngine;
 
 public class QueryEvaluationTestCases {
 
-	
-	 * @Test public void test() { fail("Not yet implemented"); }
-	 
-
 	static QueryEvaluationEngine queryEvaluationEngine;
 	static CsvFileReader csvFileReader;
 
@@ -22,12 +18,12 @@ public class QueryEvaluationTestCases {
 		queryEvaluationEngine = new QueryEvaluationEngine();
 	}
 
-	@Test
+	/*@Test
 	public void headerfetcher() {
 		String header[] = csvFileReader.fetchHeader("emp");
 		//assertNotNull(csvFileReader);
 		assertEquals(5, header.length);
-	}
+	}*/
 	
 	@Test
 	public void fetchAllDataWithoutWhere() {
@@ -43,4 +39,3 @@ public class QueryEvaluationTestCases {
 		
 	}
 }
-*/

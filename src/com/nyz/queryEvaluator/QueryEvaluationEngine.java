@@ -1,4 +1,4 @@
-/*package com.nyz.queryEvaluator;
+package com.nyz.queryEvaluator;
 
 public class QueryEvaluationEngine {
 
@@ -15,4 +15,3 @@ public class QueryEvaluationEngine {
 	}
 
 }
-*/
