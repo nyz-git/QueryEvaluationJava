@@ -20,95 +20,69 @@ public class QueryEvaluationParameter {
 	private String orderByColumn = null;
 	private String groupByColumn = null;
 	String[] splitAtGroupBy = null;
+
 	public QueryEvaluationParameter extractParam(String query) {
 		// TODO Auto-generated method stub
-		/*String[] FromSplit = query.split("from");
-		pattern = Pattern.compile("select (.*?) from (.*)+?");
-		matcher = pattern.matcher(query.trim());
-		if (matcher.find()) {
-			columnNames = matcher.group(1).split("[\\s,]+");
-			String[] csvName = FromSplit[1].split("[\\s.]+");
-			this.csvName = csvName[1];
-		} else {
-			System.out.println("MATCHED FAILED");
-		}*/
-		
-		
-
-		String[] SplitAtFrom = query.split("from");
-		
-		pattern = Pattern.compile("select (.*?) from (.*)+?");
-		matcher = pattern.matcher(query.trim());
-		if (matcher.find()) {
-			if (matcher.group(1).trim().contains("sum")) {
-				pattern = Pattern.compile("(\\(([a-zA-Z]+)\\))");
-				matcher = pattern.matcher(matcher.group(1));
-				if (matcher.find()) {
-					sumFunction = matcher.group(2);
-				}
-
-			}
-			if (matcher.group(1).trim().contains("count")) {
-				pattern = Pattern.compile("(\\(([a-zA-Z\\*]+)\\))");
-				matcher = pattern.matcher(matcher.group(1));
-				if (matcher.find()) {
-					countFunction = matcher.group(2);
-				}
-			}
-			columnNames = matcher.group(1).split("[\\s,]+");
-			String[] tableName = SplitAtFrom[1].split("[\\s.]+");
-			this.csvName = tableName[1];
-		} else {
-			System.out.println("NO MATCH");
-		}
 
 		String[] splitAtOrderBy = query.split("order by");
 
 		if (splitAtOrderBy.length > 1) {
 			orderByColumn = splitAtOrderBy[1].trim();
-			
-			}
+
+		}
 
 		splitAtGroupBy = splitAtOrderBy[0].split("group by");
 
 		if (splitAtGroupBy.length > 1) {
 			groupByColumn = splitAtGroupBy[1].trim();
-			
+
 		}
 
 		splitAtWhere = splitAtGroupBy[0].split("where");
 
-		if (splitAtWhere.length > 1) {			
-			
+		if (splitAtWhere.length > 1) {
+
 			whereClause = new ArrayList<>();
 			whereCondition = new ArrayList<>();
-			
+
 			String whereString = splitAtWhere[1].trim();
-			String[] whereLogicalOperator = whereString.split("\\s+");
-			
-			for (String s : whereLogicalOperator) {
-				if (s.equals("and")) {
-					whereCondition.add("and");
-				} else if (s.equals("or")) {
+			String[] whereCond = whereString.split("\\s+");
+
+			for (String s : whereCond) {
+				if (s.equals("or")) {
 					whereCondition.add("or");
+				} else if (s.equals("and")) {
+					whereCondition.add("and");
 				}
 			}
 			String whereClauseElement[] = whereString.split(" and | or ", 2);
+			initializeCriteria(whereClauseElement[0].trim());
+			
 			while (whereClauseElement.length != 1) {
-				fillCriteria(whereClauseElement[0].trim());
+				initializeCriteria(whereClauseElement[0].trim());
 				whereClauseElement = whereClauseElement[1].split(" and | or ", 2);
 			}
-			fillCriteria(whereClauseElement[0].trim());
+			
 
-		} // where clause ends here
+		} // end of where clause
+
+		String[] splitAtFrom = query.split("from");
+		pattern = Pattern.compile("select (.*?) from (.*)+?");
+		matcher = pattern.matcher(query.trim());
+		if (matcher.find()) {
+			columnNames = matcher.group(1).split("[\\s,]+");
+			String[] csvName = splitAtFrom[1].split("[\\s.]+");
+			this.csvName = csvName[1];
+		} else {
+			System.out.println("NO MATCH");
+		}
 		return this;
-	}// extractParam ends here
+	}// extractParam ends
 
-	public void fillCriteria(String whereElement) {
+	public void initializeCriteria(String whereElement) {
 		Criteria criteria = new Criteria();
 		pattern = Pattern.compile("(.*) ([!=|>=|<=|>|<|=]+) (.*)");
-		//pattern=Pattern.compile("(.)([<>|>=|<=|>|<|=]+) (.*)");
-		
+
 		matcher = pattern.matcher(whereElement);
 		if (matcher.find()) {
 			criteria.setColumnNameOfWhere(matcher.group(1).trim());
@@ -118,13 +92,7 @@ public class QueryEvaluationParameter {
 		whereClause.add(criteria);
 	}
 
-	public void printWhereClause() {
-		Iterator itr = whereClause.iterator();
-		while (itr.hasNext()) {
-			System.out.println(itr.next());
-		}
-	}
-	// getter and setter of all variables
+	/* --------GETTERS AND SETTER -------------------------- */
 	public String[] getColumnNames() {
 		return columnNames;
 	}
@@ -183,10 +151,9 @@ public class QueryEvaluationParameter {
 
 	@Override
 	public String toString() {
-		return "QueryEvaluationParameter [columnNames=" + Arrays.toString(columnNames) + ", csvName=" + csvName
-				+ ", whereClause=" + whereClause + ", whereCondition=" + whereCondition + ", sumFunction=" + sumFunction
-				+ ", countFunction=" + countFunction + ", orderByColumn=" + orderByColumn + ", groupByColumn="
-				+ groupByColumn + "]";
+		return "QueryEvaluationParameter [columnNames=" + Arrays.toString(columnNames) + ", csvName : " + csvName
+				+ ", whereClause : " + whereClause + ", whereCondition : " + whereCondition + ", sumFunction : "
+				+ sumFunction + ", countFunction : " + countFunction + ", orderByColumn : " + orderByColumn
+				+ ", groupByColumn : " + groupByColumn + "]";
 	}
-
 }
